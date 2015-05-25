@@ -1,0 +1,2 @@
+SQLAlchemy==1.0.4
+SQLAlchemy-Defaults==0.4.4
