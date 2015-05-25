@@ -1,14 +1,11 @@
-import csv
 import sqlalchemy as sa
 
 from math import fabs
 from statistics import mean, stdev
-from decimal import Decimal
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy_defaults import Column
 
-from .helpers import populate_deals
 
 Base = declarative_base()
 
@@ -22,7 +19,7 @@ class Deal(Base):
     bracket_id = Column(sa.Integer, nullable=False)
     location = Column(sa.Float, nullable=False)
     date = Column(sa.Float, nullable=False)
-    price = Column(sa.Numeric, nullable=False)
+    price = Column(sa.Float, nullable=False)
 
 
 def validate_price(session, group_id, industry_id, volume, location, item_date, price):
@@ -61,15 +58,3 @@ def stat_analysis(target_price, selected_prices):
     if fabs(target_price - mean(selected_prices)) < stdev(selected_prices):
         res['valid'] = True
     return res
-
-
-if __name__ == '__main__':
-    engine = sa.create_engine('sqlite:///:memory:')
-    # engine = sa.create_engine('postgres://guy:guy@localhost/guy')
-    Session = sa.orm.sessionmaker(bind=engine)
-    Session.configure(bind=engine)
-    session = Session()
-    Base.metadata.drop_all(engine)
-    Base.metadata.create_all(engine)
-    populate_deals(session, '../data.csv')
-    print(validate_price(session, 4, 31, 0, 250, 400, Decimal(200)))

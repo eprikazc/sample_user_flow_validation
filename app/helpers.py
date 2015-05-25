@@ -1,3 +1,8 @@
+import csv
+
+from .models import Deal
+
+
 def populate_deals(session, csv_file_name):
     '''Populates deals table from csv file'''
     deals = []
