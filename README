@@ -1,8 +1,10 @@
 Usage:
 
-1. Install in virtual env:
+1. Create virtualenv with Python3.4
+
+2. Install in virtual env:
  pip install -r requirements.txt
 
-2. Run:
+3. Run:
  cd app
  python models.py
